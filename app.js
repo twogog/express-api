@@ -6,9 +6,9 @@ const app = express()
 
 const PORT = process.env.PORT || 3003
 const dbPath = path.join(path.resolve(process.cwd()), "db.json");
-const bodyParser = express.json
 
 app.use(cors())
+app.use(express.json());
 
 function getDbData() {
   return JSON.parse(fs.readFileSync(dbPath, "utf8"));
@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
   res.json(db)
 })
 
-app.put('/adduser', bodyParser(), (req, res) => {
+app.put('/adduser', (req, res) => {
   const db = getDbData()
   const {name} = req.body
   db.users.push({name, score: 0})
@@ -28,7 +28,7 @@ app.put('/adduser', bodyParser(), (req, res) => {
   });
 })
 
-app.put('/addscore', bodyParser(), (req, res) => {
+app.put('/addscore', (req, res) => {
   const db = getDbData();
   const {score, name} = req.body
   
