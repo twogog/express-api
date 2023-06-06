@@ -11,7 +11,7 @@ const bodyParser = express.json
 app.use(cors())
 
 function getDbData() {
-  return fs.readFileSync(dbPath, "utf8");
+  return JSON.parse(fs.readFileSync(dbPath, "utf8"));
 }
 
 app.get('/', (req, res) => {
@@ -23,7 +23,7 @@ app.put('/adduser', bodyParser(), (req, res) => {
   const db = getDbData()
   const {name} = req.body
   db.users.push({name, score: 0})
-    
+  console.log(db)
   fs.writeFile(dbPath, JSON.stringify(db), (error, data) => {
     res.send('success')
   });
