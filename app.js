@@ -24,7 +24,7 @@ app.put('/adduser', bodyParser(), (req, res) => {
   const {name} = req.body
   db.users.push({name, score: 0})
     
-  fs.writeFile(dbPath, JSON.stringify(response), (error, data) => {
+  fs.writeFile(dbPath, JSON.stringify(db), (error, data) => {
     res.send('success')
   });
 })
