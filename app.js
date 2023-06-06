@@ -10,7 +10,7 @@ const bodyParser = express.json
 app.use(cors())
 
 app.get('/', (req, res) => {
-  fs.readFile("./public/db.json", 'utf-8', (error, data) => {
+  fs.readFile("./db.json", 'utf-8', (error, data) => {
     console.log(2023)
     res.json(data)
   });
