@@ -29,19 +29,19 @@ app.put('/adduser', bodyParser(), (req, res) => {
 })
 
 app.put('/addscore', bodyParser(), (req, res) => {
-  fs.readFile("./db.json", (error, data) => {
-    const response = JSON.parse(data)
-    const {score, name} = req.body
-    const user = response.users.find(user => user.name === name)
+  const db = getDbData();
+  const {score, name} = req.body
+  
+  const user = db.users.find(user => user.name === name)
     if (+user.score < +score) {
-      const result = response.users = response.users.map(user => {
+      const result = db.users = db.users.map(user => {
         return user.name === name ? {...user, score} : user
       })
-      fs.writeFile("./db.json", JSON.stringify({users: result}), (error, data) => {
+
+      fs.writeFile(dbPath, JSON.stringify({users: result}), (error, data) => {
         res.send(JSON.stringify({users: result}))
       });
     } else res.send('previous score is better')
-  });
 })
 
 app.listen(PORT, () => {
