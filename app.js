@@ -10,10 +10,15 @@ const bodyParser = express.json
 app.use(cors())
 
 app.get('/', (req, res) => {
-  fs.readFile("./db.json", 'utf-8', (error, data) => {
-    console.log(2023)
-    res.json(data)
-  });
+  const file = fs.readFileSync(
+    fs.path.join(path.resolve(process.cwd(), "public"), "db.json"),
+    "utf8"
+  );
+  res.json(file)
+  // fs.readFile("./db.json", 'utf-8', (error, data) => {
+  //   console.log(2023)
+  //   res.json(data)
+  // });
 })
 
 app.put('/adduser', bodyParser(), (req, res) => {
