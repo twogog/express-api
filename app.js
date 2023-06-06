@@ -5,7 +5,7 @@ const cors = require('cors')
 const app = express()
 
 const PORT = process.env.PORT || 3003
-const dbPath = path.join(path.resolve(process.cwd(), "public"), "db.json");
+const dbPath = path.join(path.resolve(process.cwd()), "db.json");
 const bodyParser = express.json
 
 app.use(cors())
@@ -23,7 +23,6 @@ app.put('/adduser', bodyParser(), (req, res) => {
   const db = getDbData()
   const {name} = req.body
   db.users.push({name, score: 0})
-  console.log(db)
   fs.writeFile(dbPath, JSON.stringify(db), (error, data) => {
     res.send(getDbData())
   });
