@@ -1,4 +1,5 @@
 const fs = require("fs");
+const path = require("path");
 const express = require('express')
 const cors = require('cors')
 const app = express()
@@ -11,7 +12,7 @@ app.use(cors())
 
 app.get('/', (req, res) => {
   const file = fs.readFileSync(
-    fs.path.join(path.resolve(process.cwd(), "public"), "db.json"),
+    path.join(path.resolve(process.cwd(), "public"), "db.json"),
     "utf8"
   );
   res.json(file)
