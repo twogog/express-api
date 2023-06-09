@@ -3,6 +3,7 @@ import { kv } from '@vercel/kv';
 export default async function handler(request, response) {
   // kv.flushall()
   // kv.dbsize()
+  if (request.method !== 'GET' && !request.headers['content-type']?.includes('json')) return response.status(507).json('content-type should be a json type')
   const users = await kv.get('users') || []
 
   if (!request?.body) return response.status(200).json(users)
