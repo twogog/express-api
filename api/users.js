@@ -5,7 +5,7 @@ export default async function handler(request, response) {
   // kv.dbsize()
   const headersCheck = headers => headers['content-type']?.includes('json')
 
-  if (request.body && !headersCheck(request.headers)) return response.status(400).json('content-type should be a json type')
+  if (request.body && (!headersCheck(request.headers))) return response.status(400).json('content-type should be a json type')
   const users = await kv.get('users') || []
 
   if (!request?.body) return response.status(200).json(users)
