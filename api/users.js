@@ -3,15 +3,12 @@ import { kv } from '@vercel/kv';
 export default async function handler(request, response) {
   // kv.flushall()
   // kv.dbsize()
-  console.log(request.body)
-  const headersCheck = req => req.body && req.headers['content-type']?.includes('json')
-  if (!headersCheck(request)) return response.status(400).json('content-type should be a json type')
   const users = await kv.get('users') || []
 
   if (!request?.body) return response.status(200).json(users)
   
   const {name, score = 0} = request.body;
-
+  if(!name) return response.status(400).json('something wrong with your body or content-type')
   if (!score) { // first put
     const newUsers = users.find(user => user.name === name) 
       ? users
