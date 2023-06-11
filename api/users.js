@@ -3,7 +3,8 @@ import { kv } from '@vercel/kv';
 export default async function handler(request, response) {
   // kv.flushall()
   // kv.dbsize()
-  const users = await kv.get('users') || []
+  
+  const users = await kv.get('secret') || []
 
   if (!request?.body) return response.status(200).json(users)
   
