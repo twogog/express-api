@@ -3,6 +3,7 @@ import { kv } from '@vercel/kv';
 export default async function handler(request, response) {
   // kv.flushall()
   // kv.dbsize()
+  return response.status(200).json(request.body)
   const {email, name, password, score = 0} = request.body;
   const registratedUsers = await kv.get('users') || []
   const currentUser = registratedUsers.find(user => user.name === name);
