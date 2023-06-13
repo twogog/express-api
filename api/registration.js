@@ -1,6 +1,21 @@
 import { kv } from '@vercel/kv'; 
 
-export default async function handler(request, response) {
+const allowCors = fn => async (req, res) => {
+  res.setHeader('Access-Control-Allow-Credentials', true)
+  res.setHeader('Access-Control-Allow-Origin', '*')
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT')
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+  )
+  if (req.method === 'OPTIONS') {
+    res.status(200).end()
+    return
+  }
+  return await fn(req, res)
+}
+
+async function handler(request, response) {
   // kv.flushall()
   // kv.dbsize()
     const {email, name, password, score = 0} = request.body;
@@ -12,3 +27,5 @@ export default async function handler(request, response) {
     await kv.set('users', JSON.stringify([...registratedUsers, newUser]))
     return response.status(200).json('success');  
 }
+
+module.exports = allowCors(handler)
